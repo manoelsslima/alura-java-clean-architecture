@@ -1,4 +1,4 @@
-package br.com.alura.codechella.model;
+package br.com.alura.codechella.dontuse.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
