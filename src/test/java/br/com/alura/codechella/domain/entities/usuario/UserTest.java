@@ -5,40 +5,40 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-public class UsuarioTest {
+public class UserTest {
     @Test
     public void naoDeveCadastrarUsuarioComCpfInvalido() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Usuario("12345678900", "Manoel", LocalDate.parse("1990-01-01"), "manoel@mail.com");
+            new User("12345678900", "Manoel", LocalDate.parse("1990-01-01"), "manoel@mail.com");
         });
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Usuario("123.45678900", "Manoel", LocalDate.parse("1990-01-01"), "manoel@mail.com");
+            new User("123.45678900", "Manoel", LocalDate.parse("1990-01-01"), "manoel@mail.com");
         });
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Usuario("123.456.78900", "Manoel", LocalDate.parse("1990-01-01"), "manoel@mail.com");
+            new User("123.456.78900", "Manoel", LocalDate.parse("1990-01-01"), "manoel@mail.com");
         });
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Usuario("", "Manoel", LocalDate.parse("1990-01-01"), "manoel@mail.com");
+            new User("", "Manoel", LocalDate.parse("1990-01-01"), "manoel@mail.com");
         });
     }
 
     @Test
     public void deveCadastrarUsuarioUsandoFabricaDeUsuario() {
-        FabricaDeUsuario fabricaDeUsuario = new FabricaDeUsuario();
-        Usuario usuario = fabricaDeUsuario.comNomeCpfNascimento("Ana", "987.654.321-00", LocalDate.parse("1985-05-15"));
+        UserFactory userFactory = new UserFactory();
+        User user = userFactory.comNomeCpfNascimento("Ana", "987.654.321-00", LocalDate.parse("1985-05-15"));
 
-        Assertions.assertEquals("Ana", usuario.getNome());
+        Assertions.assertEquals("Ana", user.getNome());
 
-        usuario = fabricaDeUsuario.incluirEndereco("12345-678", 100, "Apto 101");
+        user = userFactory.incluirEndereco("12345-678", 100, "Apto 101");
 
-        Assertions.assertEquals("12345-678", usuario.getEndereco().getCep());
+        Assertions.assertEquals("12345-678", user.getEndereco().getCep());
     }
 
     @Test
     public void deveSerMaiorDeIdade() {
         LocalDate dataNascimento = LocalDate.now().minusYears(17);
         IllegalArgumentException ex = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            new Usuario("111.222.333-44", "João", dataNascimento, "joao@teste.com");
+            new User("111.222.333-44", "João", dataNascimento, "joao@teste.com");
         });
         Assertions.assertEquals("Usuário deve ser maior de idade", ex.getMessage());
     }

@@ -1,6 +1,6 @@
 package br.com.alura.codechella.domain.entities.usuario;
 
-import br.com.alura.codechella.domain.Endereco;
+import br.com.alura.codechella.domain.Address;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -8,14 +8,14 @@ import java.time.Period;
 /**
  * Entity: means that its identity is based on a unique identifier (CPF in this case).
  */
-public class Usuario {
+public class User {
     private String cpf;
     private String nome;
     private LocalDate nascimento;
     private String email;
-    private Endereco endereco;
+    private Address address;
 
-    public Usuario(String cpf, String nome, LocalDate nascimento, String email) {
+    public User(String cpf, String nome, LocalDate nascimento, String email) {
         if (cpf == null || !cpf.matches("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}")) {
             throw new IllegalArgumentException("CPF inválido");
         }
@@ -63,11 +63,11 @@ public class Usuario {
         this.email = email;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
+    public Address getEndereco() {
+        return address;
     }
 
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
+    public void setEndereco(Address address) {
+        this.address = address;
     }
 }
