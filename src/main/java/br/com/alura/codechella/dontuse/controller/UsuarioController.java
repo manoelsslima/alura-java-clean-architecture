@@ -1,6 +1,6 @@
 package br.com.alura.codechella.dontuse.controller;
 
-import br.com.alura.codechella.dontuse.model.Usuario;
+import br.com.alura.codechella.infra.persistence.UserEntity;
 import br.com.alura.codechella.dontuse.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +24,15 @@ public class UsuarioController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid Usuario usuario, UriComponentsBuilder uriBuilder) {
-        service.cadastrarUsuario(usuario);
-        var uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
+    public ResponseEntity cadastrar(@RequestBody @Valid UserEntity userEntity, UriComponentsBuilder uriBuilder) {
+        service.cadastrarUsuario(userEntity);
+        var uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(userEntity.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(usuario);
+        return ResponseEntity.created(uri).body(userEntity);
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> listar() {
+    public ResponseEntity<List<UserEntity>> listar() {
         return ResponseEntity.ok(service.listarTodos());
     }
 

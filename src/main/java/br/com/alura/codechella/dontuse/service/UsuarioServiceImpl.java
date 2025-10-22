@@ -1,7 +1,7 @@
 package br.com.alura.codechella.dontuse.service;
 
-import br.com.alura.codechella.dontuse.model.Usuario;
-import br.com.alura.codechella.dontuse.repository.UsuarioRepository;
+import br.com.alura.codechella.infra.persistence.UserEntity;
+import br.com.alura.codechella.infra.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,15 +10,15 @@ import java.util.List;
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
-    private UsuarioRepository repository;
+    private UserRepository repository;
 
     @Override
-    public Usuario cadastrarUsuario(Usuario usuario) {
-        return repository.save(usuario);
+    public UserEntity cadastrarUsuario(UserEntity userEntity) {
+        return repository.save(userEntity);
     }
 
     @Override
-    public List<Usuario> listarTodos() {
+    public List<UserEntity> listarTodos() {
         return repository.findAll();
     }
 }

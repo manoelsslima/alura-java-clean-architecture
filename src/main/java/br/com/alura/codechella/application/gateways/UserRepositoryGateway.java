@@ -4,7 +4,12 @@ import br.com.alura.codechella.domain.entities.usuario.User;
 
 import java.util.List;
 
-public interface UserRepository {
+/*
+Gateway define o contrato e mantém o core independente de fraameworks; casos de uso
+depende apenas dessas interfaces.
+ */
+public interface UserRepositoryGateway {
+
     User cadastrarUsuario(User usuario);
 
     List<User> listarTodos();
