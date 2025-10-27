@@ -19,6 +19,16 @@ public class UserEntity {
     private LocalDate nascimento;
     private String email;
 
+    public UserEntity() {
+    }
+
+    public UserEntity(String cpf, String nome, LocalDate nascimento, String email) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.nascimento = nascimento;
+        this.email = email;
+    }
+
     public Long getId() {
         return id;
     }
