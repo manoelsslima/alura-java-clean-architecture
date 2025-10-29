@@ -137,3 +137,48 @@ pacotebase
 |       `-- PessoaController.java
 `-- config
     `-- UsuarioConfig.java
+
+
+To add new features, you typically start by defining the necessary entities and value objects in the domain layer,
+then create the corresponding use cases in the application layer, implement the required gateways in the infrastructure
+layer and create controllers to handle incoming requests.
+
+# Resumo
+## Controller
+
+Representado pela nossa classe UsuarioController no pacote infra. O Controller é a camada de apresentação que lida com
+as requisições do usuário e coordena o fluxo de dados entre a interface do usuário e os casos de uso da aplicação. Ele
+recebe as requisições HTTP, processa os parâmetros de entrada e chama os casos de uso apropriados para realizar a
+lógica de negócios necessária. Por isso que nele, passamos no construtor os casos de uso CriarUsuario e ListarUsuarios.
+
+## Porta de entrada do caso de uso (Use Case Input Port)
+Representado pela interface RepositorioDeUsuario. O Use Case Input Port define a interface abstrata para os casos de
+uso da aplicação. Ele representa os serviços oferecidos pela aplicação e define os métodos que podem ser chamados pelo
+Controller para executar funcionalidades específicas. Em nossa aplicação, optamos por criar apenas uma com todos os
+métodos, mas poderíamos ter separado, conforme indiquei em vídeo.
+
+## Interator de caso de uso (Use Case Interactor)
+Representado pelas classes CriarUsuario e ListarUsuarios. O Use Case Interactor é a implementação concreta dos casos de
+uso definidos pela porta de entrada. Ele contém a lógica de negócios real da aplicação e é responsável por coordenar as
+operações necessárias para atender às solicitações do usuário. O Interactor pode acessar os dados através dos Output
+Ports.
+
+## Porta de saída do caso de uso (Use Case Output Port)
+Não implementamos em nossa aplicação uma porta diferenciada para exibir a saída de forma específica. Estamos usando a
+mesma input port para retornar os dados. O Use Case Output Port define uma interface abstrata para saída de dados do
+caso de uso. Ele permite que o Use Case Interactor envie resultados para fora da camada de aplicação sem estar acoplado
+a implementações específicas. Isso facilita a realização de testes de unidade e a substituição de implementações.
+
+## Presenter
+Também não implementamos em nossa aplicação o Presenter, que é responsável por formatar os resultados produzidos pelo
+Interactor adequadamente para a interface do usuário. Ele recebe os dados do Interactor por meio do Output Port e os
+transforma em um formato que pode ser facilmente apresentado na interface do usuário, como JSON para uma API REST ou
+objetos para uma aplicação web.
+
+Em resumo, o fluxo no clean architecture segue uma abordagem em camadas, em que o Controller interage com os Casos de
+Uso através dos Ports (Input e Output Ports), delegando a lógica de negócios para os Interactors. O Presenter é
+responsável por formatar os resultados para a apresentação na interface do usuário.
+
+Essa estrutura promove um alto nível de desacoplamento e facilita a manutenção, teste e evolução do código ao longo do
+tempo. Apesar de não termos implementado use case output port e presenter, a maneira como definimos nossa interface
+RepositorioDeUsuario, poderemos ver a facilidade em implementar novas formas de persistência.

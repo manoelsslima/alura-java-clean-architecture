@@ -36,15 +36,14 @@ public class UserRepositoryGatewayImpl implements UserRepositoryGateway {
     }
 
     @Override
-    public User cadastrarUsuario(User user) {
+    public User addUser(User user) {
         UserEntity userEntity = mapper.toEntity(user);
         repository.save(userEntity);
         return mapper.toDomain(userEntity);
     }
 
     @Override
-    public List<User> listarTodos() {
-        //return repository.findAll();
-        return null;
+    public List<User> findAllUsers() {
+        return repository.findAll().stream().map(mapper::toDomain).toList();
     }
 }

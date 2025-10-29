@@ -1,11 +1,11 @@
 package br.com.alura.codechella.infra.controller;
 
 import br.com.alura.codechella.application.usecases.CreateUser;
+import br.com.alura.codechella.application.usecases.ListUsers;
 import br.com.alura.codechella.domain.entities.usuario.User;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -13,9 +13,11 @@ public class UserController {
 
     // inject use case (application/usecases)
     private final CreateUser createUser;
+    private final ListUsers listUsers;
 
-    public UserController(CreateUser createUser) {
+    public UserController(CreateUser createUser, ListUsers listUsers) {
         this.createUser = createUser;
+        this.listUsers = listUsers;
     }
 
     @PostMapping
@@ -23,6 +25,12 @@ public class UserController {
         // returns a domain User entity
         User savedUser = createUser.addUser(new User(userDto.cpf(), userDto.nome(), userDto.nascimento(), userDto.email()));
         return new UserDto(savedUser.getCpf(), savedUser.getNome(), savedUser.getNascimento(), savedUser.getEmail());
+    }
+
+    @GetMapping
+    public List<UserDto> findAllUsers() {
+        return this.listUsers.findAllUsers().stream()
+                .map(user -> new UserDto(user.getCpf(), user.getNome(), user.getNascimento(), user.getEmail())).toList();
     }
 
 }

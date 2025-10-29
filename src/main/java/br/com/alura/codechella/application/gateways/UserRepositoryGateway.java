@@ -10,7 +10,7 @@ depende apenas dessas interfaces.
  */
 public interface UserRepositoryGateway {
 
-    User cadastrarUsuario(User usuario);
+    User addUser(User usuario);
 
-    List<User> listarTodos();
+    List<User> findAllUsers();
 }

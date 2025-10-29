@@ -2,6 +2,7 @@ package br.com.alura.codechella.config;
 
 import br.com.alura.codechella.application.gateways.UserRepositoryGateway;
 import br.com.alura.codechella.application.usecases.CreateUser;
+import br.com.alura.codechella.application.usecases.ListUsers;
 import br.com.alura.codechella.infra.gateways.UserEntityMapper;
 import br.com.alura.codechella.infra.gateways.UserRepositoryGatewayImpl;
 import br.com.alura.codechella.infra.persistence.UserRepository;
@@ -17,9 +18,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class UsuarioConfig {
 
-    @Bean // dependency injection
+    @Bean
+        // dependency injection
     CreateUser createUser(UserRepositoryGateway userRepositoryGateway) {
         return new CreateUser(userRepositoryGateway);
+    }
+
+    @Bean
+    ListUsers listUsers(UserRepositoryGateway userRepositoryGateway) {
+        return new ListUsers(userRepositoryGateway);
     }
 
     // criado para satisfazer a dependência do CreateUser
