@@ -14,7 +14,7 @@ public class CreateUser {
         this.userRepositoryGateway = userRepositoryGateway;
     }
 
-    public User cadastrarUsuario(User user) {
+    public User addUser(User user) {
         return userRepositoryGateway.cadastrarUsuario(user);
     }
 }

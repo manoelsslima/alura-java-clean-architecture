@@ -72,7 +72,68 @@ Continuando com o exemplo anterior, no pacote de infraestrutura, poderíamos ter
 
 Em resumo, os gateways no pacote de aplicação definem contratos abstratos para interações externas, enquanto os gateways no pacote de infraestrutura fornecem implementações concretas desses contratos usando tecnologias específicas de infraestrutura. Essa separação de responsabilidades e níveis de abstração permite que a lógica de negócios da aplicação permaneça independente de detalhes de implementação e facilite a substituição ou modificação das tecnologias de infraestrutura no futuro.
 
+# Clean Architecture - Estrutura de Pacotes
+
+Em um sistema que segue os princípios da Clean Architecture, a estrutura de pacotes é organizada em camadas distintas,
+cada uma com responsabilidades específicas. A seguir, descrevo a estrutura típica de pacotes para um sistema simples,
+dividido em três camadas principais: domain, application e infrastructure. As camadas só enxergam as camadas internas a
+elas, seguindo o modelo de cebola.
+
+## Domain
+Começamos pelo **domain**, parte principal do sistema, onde estão as entidades (classes Java) e os value objects.
+
+Ex.: Pessoa (entity) e Endereço (value object).
+
+## Application
+Em seguida, passamos para a camada de **application**, onde definimos os casos de uso (use cases), no pacote
+**usecases**, que definem a lógica de negócios (regra de negócio) utilizando as entidades e value objects do domain.
+Não há preocupação com detalhes técnicos aqui, apenas com as regras de negócio.
+
+Ex.: CadastrarPessoaUseCase, ListarPessoasUseCase.
+
+Também na camada de application, definimos os gateways (interfaces) no pacote **gateways**, que descrevem as operações
+necessárias para interagir com sistemas externos, como repositórios de dados. Obs.: Esses gateways são implementados na
+camada de infraestrutura.
+
+## Infrastructure
+Finalmente, chegamos à camada de infraestrutura (**infrastructure**), no pacote **infra**, onde implementamos os
+gateways, no pacote infra/persistence, definidos na camada de application (application/gateway), lidando com detalhes
+técnicos como persistência de dados. Essa é a camada que implementa as interfaces das tecnologias específicas, como
+JPA, JDBC, Spring Boot JPA, etc. Também criamos a entidade JPA aqui, no pacote infra/persistence, que mapeia a entidade
+do domain para a tabela do banco de dados, como PessoaEntity. No pacote infra/gateway, implementamos um mapper, para
+converter entre a entidade do domain (Pessoa) e a entidade JPA (PessoaEntity).
+
+Ex.: PessoaRepositoryJpa implementa PessoaRepository (gateway).
+
+O núcleo nunca tem contato com as camadas externas
 
 No controller da camada de infraestrutura, você deve chamar os casos de uso (use cases) definidos na camada de
 aplicação (application). Os casos de uso encapsulam a lógica de negócios e são responsáveis por orquestrar as
 operações necessárias para atender às solicitações do usuário.
+
+## Config
+Nesse pacote, adicionamos as classes de configuração da implementação, como configuração do banco de dados, injeção
+de dependências, etc., tudo que não pôde ser aproveitado do framework utilizado (Spring Boot, por exemplo).
+
+pacotebase
+|-- domain
+|   |-- entities
+|   |   `-- Pessoa.java
+|   `-- valueobjects
+|       `-- Endereco.java
+|-- application
+|   |-- usecases
+|   |   |-- CadastrarPessoaUseCase.java
+|   |   `-- ListarPessoasUseCase.java
+|   `-- gateways
+|       `-- PessoaRepository.java
+`-- infrastructure
+|   `-- persistence
+|   |   |-- PessoaEntity.java
+|   |   `-- PessoaRepositoryJpa.java
+|   `-- gateway
+|   |   `-- PessoaMapper.java
+|   |-- controller
+|       `-- PessoaController.java
+`-- config
+    `-- UsuarioConfig.java

@@ -28,9 +28,9 @@ Precisamos criar um mapper para converter entre a entidade JPA e o domínio User
 public class UserRepositoryGatewayImpl implements UserRepositoryGateway {
 
     private final UserRepository repository;
-    private final UsuarioEntityMapper mapper;
+    private final UserEntityMapper mapper;
 
-    public UserRepositoryGatewayImpl(UserRepository repository, UsuarioEntityMapper mapper) {
+    public UserRepositoryGatewayImpl(UserRepository repository, UserEntityMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }
