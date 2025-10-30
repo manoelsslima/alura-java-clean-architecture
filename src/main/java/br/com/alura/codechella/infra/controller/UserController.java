@@ -2,7 +2,9 @@ package br.com.alura.codechella.infra.controller;
 
 import br.com.alura.codechella.application.usecases.CreateUser;
 import br.com.alura.codechella.application.usecases.ListUsers;
+import br.com.alura.codechella.application.usecases.UpdateUser;
 import br.com.alura.codechella.domain.entities.usuario.User;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,10 +16,12 @@ public class UserController {
     // inject use case (application/usecases)
     private final CreateUser createUser;
     private final ListUsers listUsers;
+    private final UpdateUser updateUser;
 
-    public UserController(CreateUser createUser, ListUsers listUsers) {
+    public UserController(CreateUser createUser, ListUsers listUsers, UpdateUser updateUser) {
         this.createUser = createUser;
         this.listUsers = listUsers;
+        this.updateUser = updateUser;
     }
 
     @PostMapping
@@ -31,6 +35,12 @@ public class UserController {
     public List<UserDto> findAllUsers() {
         return this.listUsers.findAllUsers().stream()
                 .map(user -> new UserDto(user.getCpf(), user.getNome(), user.getNascimento(), user.getEmail())).toList();
+    }
+
+    @PutMapping("/{cpf}")
+    public ResponseEntity<String> put(@PathVariable String cpf, @RequestBody UserDto userDto) {
+        this.updateUser.updateUser(cpf, new User(userDto.cpf(), userDto.nome(), userDto.nascimento(), userDto.email()));
+        return ResponseEntity.noContent().build();
     }
 
 }

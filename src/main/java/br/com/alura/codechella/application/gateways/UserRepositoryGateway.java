@@ -13,4 +13,6 @@ public interface UserRepositoryGateway {
     User addUser(User usuario);
 
     List<User> findAllUsers();
+
+    void updateUser(String cpf, User user);
 }

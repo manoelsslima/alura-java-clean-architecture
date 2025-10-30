@@ -4,8 +4,10 @@ import br.com.alura.codechella.application.gateways.UserRepositoryGateway;
 import br.com.alura.codechella.domain.entities.usuario.User;
 import br.com.alura.codechella.infra.persistence.UserEntity;
 import br.com.alura.codechella.infra.persistence.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /*
 O pacote gateways na camada de infraestrutura (infra) é responsável por implementar
@@ -45,5 +47,24 @@ public class UserRepositoryGatewayImpl implements UserRepositoryGateway {
     @Override
     public List<User> findAllUsers() {
         return repository.findAll().stream().map(mapper::toDomain).toList();
+    }
+
+    @Transactional
+    @Override
+    public void updateUser(String cpf, User user) {
+        User userById = this.findUserByCpf(cpf);
+        UserEntity userEntity = mapper.toEntity(userById);
+        if (userEntity != null) {
+            userEntity.setNome(user.getNome());
+            userEntity.setCpf(user.getCpf());
+            userEntity.setEmail(user.getEmail());
+            userEntity.setNascimento(user.getNascimento());
+            this.repository.updateUser(userEntity.getNome(), userEntity.getNascimento(), userEntity.getEmail(), cpf);
+        }
+    }
+
+    public User findUserByCpf(String cpf) {
+        Optional<UserEntity> byId = this.repository.findByCpf(cpf);
+        return byId.map(mapper::toDomain).orElse(null);
     }
 }
