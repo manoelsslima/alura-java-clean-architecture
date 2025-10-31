@@ -53,8 +53,8 @@ public class UserRepositoryGatewayImpl implements UserRepositoryGateway {
     @Override
     public void updateUser(String cpf, User user) {
         User userById = this.findUserByCpf(cpf);
-        UserEntity userEntity = mapper.toEntity(userById);
-        if (userEntity != null) {
+        if (userById != null) {
+            UserEntity userEntity = mapper.toEntity(userById);
             userEntity.setNome(user.getNome());
             userEntity.setCpf(user.getCpf());
             userEntity.setEmail(user.getEmail());
