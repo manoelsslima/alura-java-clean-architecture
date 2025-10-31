@@ -10,9 +10,11 @@ depende apenas dessas interfaces.
  */
 public interface UserRepositoryGateway {
 
-    User addUser(User usuario);
+    User addUser(User user);
 
     List<User> findAllUsers();
 
     void updateUser(String cpf, User user);
+
+    void deleteUser(String cpf);
 }
