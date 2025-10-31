@@ -67,4 +67,10 @@ public class UserRepositoryGatewayImpl implements UserRepositoryGateway {
         Optional<UserEntity> byId = this.repository.findByCpf(cpf);
         return byId.map(mapper::toDomain).orElse(null);
     }
+
+    @Transactional
+    @Override
+    public void deleteUser(String cpf) {
+        this.repository.deleteByCpf(cpf);
+    }
 }

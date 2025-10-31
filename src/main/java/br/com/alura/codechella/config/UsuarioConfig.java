@@ -2,6 +2,7 @@ package br.com.alura.codechella.config;
 
 import br.com.alura.codechella.application.gateways.UserRepositoryGateway;
 import br.com.alura.codechella.application.usecases.CreateUser;
+import br.com.alura.codechella.application.usecases.DeleteUser;
 import br.com.alura.codechella.application.usecases.ListUsers;
 import br.com.alura.codechella.application.usecases.UpdateUser;
 import br.com.alura.codechella.infra.gateways.UserEntityMapper;
@@ -45,5 +46,10 @@ public class UsuarioConfig {
     @Bean
     UpdateUser updateUser(UserRepositoryGateway userRepositoryGateway) {
         return new UpdateUser(userRepositoryGateway);
+    }
+
+    @Bean
+    DeleteUser deleteUser(UserRepositoryGateway userRepositoryGateway) {
+        return new DeleteUser(userRepositoryGateway);
     }
 }

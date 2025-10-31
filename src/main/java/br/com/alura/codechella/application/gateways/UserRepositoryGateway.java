@@ -15,4 +15,6 @@ public interface UserRepositoryGateway {
     List<User> findAllUsers();
 
     void updateUser(String cpf, User user);
+
+    void deleteUser(String cpf);
 }

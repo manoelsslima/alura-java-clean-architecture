@@ -1,6 +1,7 @@
 package br.com.alura.codechella.infra.controller;
 
 import br.com.alura.codechella.application.usecases.CreateUser;
+import br.com.alura.codechella.application.usecases.DeleteUser;
 import br.com.alura.codechella.application.usecases.ListUsers;
 import br.com.alura.codechella.application.usecases.UpdateUser;
 import br.com.alura.codechella.domain.entities.usuario.User;
@@ -17,11 +18,13 @@ public class UserController {
     private final CreateUser createUser;
     private final ListUsers listUsers;
     private final UpdateUser updateUser;
+    private final DeleteUser deleteUser;
 
-    public UserController(CreateUser createUser, ListUsers listUsers, UpdateUser updateUser) {
+    public UserController(CreateUser createUser, ListUsers listUsers, UpdateUser updateUser, DeleteUser deleteUser) {
         this.createUser = createUser;
         this.listUsers = listUsers;
         this.updateUser = updateUser;
+        this.deleteUser = deleteUser;
     }
 
     @PostMapping
@@ -38,8 +41,14 @@ public class UserController {
     }
 
     @PutMapping("/{cpf}")
-    public ResponseEntity<String> put(@PathVariable String cpf, @RequestBody UserDto userDto) {
+    public ResponseEntity<String> updateUser(@PathVariable String cpf, @RequestBody UserDto userDto) {
         this.updateUser.updateUser(cpf, new User(userDto.cpf(), userDto.nome(), userDto.nascimento(), userDto.email()));
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{cpf}")
+    public ResponseEntity<String> deleteUser(@PathVariable String cpf) {
+        this.deleteUser.deleteUser(cpf);
         return ResponseEntity.noContent().build();
     }
 

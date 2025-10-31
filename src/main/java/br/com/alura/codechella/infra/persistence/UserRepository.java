@@ -13,4 +13,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Modifying
     @Query("update UserEntity u set u.nome = ?1, u.nascimento = ?2, u.email = ?3 where u.cpf = ?4")
     void updateUser(String nome, LocalDate nascimento, String email, String cpf);
+
+    @Modifying
+    @Query("delete from UserEntity u where u.cpf = ?1")
+    void deleteByCpf(String cpf);
 }
